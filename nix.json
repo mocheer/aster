@@ -1,0 +1,8 @@
+{
+  "name":"asteroid",
+  "version":"1.0.0",
+  "shell":"PowerShell",
+  "scripts":{
+    "build":"$env:GOOS=\"js\";$env:GOARCH=\"wasm\";go build -ldflags \"-s -w\" -o ../charon/public/assets/asteroid.wasm"
+  }
+}

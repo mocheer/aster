@@ -1,0 +1,13 @@
+# Build and Release Folders
+*.exe
+# air tmp
+tmp
+# vendor
+vendor
+# 
+assets
+public
+_*/
+$*/
+.nix/
+rsa/
