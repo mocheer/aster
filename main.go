@@ -3,10 +3,8 @@ package main
 
 import (
 	_ "embed"
+	"encoding/base64"
 	"syscall/js"
-
-	"github.com/mocheer/pluto/ec"
-	"github.com/mocheer/pluto/jsg"
 )
 
 //go:embed rsa/public.pem
@@ -14,9 +12,10 @@ var publicKeyBytes []byte
 
 func Encode(this js.Value, args []js.Value) interface{} {
 	data := args[0].String()
-	pubKey, _ := ec.RSA_PublicKeyFromBytes(publicKeyBytes) // 解密公匙
-	encryData, _ := ec.RSA_Encrypt([]byte(data), pubKey)   // 加密数据
-	return jsg.BtoaBytes(encryData)
+	pubKey, _ := RSA_PublicKeyFromBytes(publicKeyBytes) // 解密公匙
+	encryData, _ := RSA_Encrypt([]byte(data), pubKey)   // 加密数据
+
+	return base64.StdEncoding.EncodeToString(encryData)
 }
 
 func main() {
@@ -29,5 +28,6 @@ func main() {
 	}
 	wasm := T.Get("wasm")
 	wasm.Set("encode", js.FuncOf(Encode))
+	// 需要阻塞，否则会抛出 Go program has already exited
 	select {}
 }
