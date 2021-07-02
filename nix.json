@@ -3,8 +3,8 @@
   "version":"1.0.0",
   "shell":"PowerShell",
   "scripts":{
-    "tiny":"tinygo build -o asteroid.wasm -opt z -target wasm ./main.go",
     "lib":"$env:GOOS=\"js\";$env:GOARCH=\"wasm\";go build -ldflags \"-s -w\" -o asteroid.wasm",
-    "build":"$env:GOOS=\"js\";$env:GOARCH=\"wasm\";go build -ldflags \"-s -w\" -o ../charon/public/assets/asteroid.wasm"
+    "build":"$env:GOOS=\"js\";$env:GOARCH=\"wasm\";go build -ldflags \"-s -w\" -o ../charon/public/assets/asteroid.wasm",
+    "build-tiny":"tinygo build -o ../charon/public/assets/asteroid.wasm -target wasm ./main.go"
   }
 }
