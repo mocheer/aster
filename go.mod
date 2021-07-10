@@ -1,4 +1,4 @@
-module github.com/mocheer/asteroid
+module github.com/mocheer/aster
 
 go 1.16
 
