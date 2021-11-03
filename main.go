@@ -10,6 +10,7 @@ import (
 	"syscall/js"
 )
 
+// tinygo不支持 go:embed
 //go:embed rsa/public.pem
 var publicKeyBytes []byte
 
@@ -22,7 +23,7 @@ func main() {
 		js.Global().Set("T", T)
 	}
 	wasm := T.Get("wasm")
-	wasm.Set("encode", js.FuncOf(Encode)) // tinygo 不支持
+	wasm.Set("encode", js.FuncOf(Encode))
 	// 需要阻塞，否则会抛出 Go program has already exited
 	select {}
 }

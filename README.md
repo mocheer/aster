@@ -1,4 +1,4 @@
-# asteroid
+# aster
 
 wasm
 

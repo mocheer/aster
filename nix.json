@@ -3,8 +3,12 @@
   "version":"1.0.0",
   "shell":"PowerShell",
   "scripts":{
-    "lib":"$env:GOOS=\"js\";$env:GOARCH=\"wasm\";go build -ldflags \"-s -w\" -o aster.wasm",
+    "lib":"$env:GOOS=\"js\";$env:GOARCH=\"wasm\";go build -ldflags \"-s -w\" -o tests/aster.wasm",
     "build":"$env:GOOS=\"js\";$env:GOARCH=\"wasm\";go build -ldflags \"-s -w\" -o ../charon/public/assets/aster.wasm",
-    "build-tiny":"tinygo build -o ../charon/public/assets/aster.wasm -target wasm ./main.go"
+    "build-tiny":"tinygo build -o ../charon/public/assets/aster.wasm -target wasm ./main.go",
+    "build-tiny2":"tinygo build -o tests/aster.wasm -target wasm ./main.go",
+    "install-scoop":"nix scoop",
+    "install-tinygo":"scoop install tinygo",
+    "update-tinygo":"scoop update tinygo"
   }
 }
