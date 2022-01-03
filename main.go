@@ -1,18 +1,18 @@
+// + build wasm
 package main
 
 import (
-	"crypto/rand"
-	"crypto/rsa"
-	"crypto/x509"
 	_ "embed"
-	"encoding/base64"
-	"encoding/pem"
+	"encoding/hex"
 	"syscall/js"
+
+	"github.com/mocheer/aster/ec"
 )
 
-// tinygo不支持 go:embed
-//go:embed rsa/public.pem
-var publicKeyBytes []byte
+// // tinygo不支持 go:embed
+// //go:embed xx
+
+var Key []byte = []byte("ZIAIFOBQHQCWYYZI")
 
 func main() {
 	T := js.Global().Get("T")
@@ -23,16 +23,24 @@ func main() {
 		js.Global().Set("T", T)
 	}
 	wasm := T.Get("wasm")
-	wasm.Set("encode", js.FuncOf(Encode))
+	wasm.Set("encry", js.FuncOf(Encry))
+	wasm.Set("decry", js.FuncOf(Decry))
+	wasm.Set("version", js.ValueOf("1.0.0"))
 	// 需要阻塞，否则会抛出 Go program has already exited
 	select {}
 }
 
-// Encode
-func Encode(this js.Value, args []js.Value) interface{} {
+// Encry
+func Encry(this js.Value, args []js.Value) interface{} {
 	data := args[0].String()
-	b, _ := pem.Decode(publicKeyBytes)
-	pubKey, _ := x509.ParsePKIXPublicKey(b.Bytes)
-	encryData, _ := rsa.EncryptPKCS1v15(rand.Reader, pubKey.(*rsa.PublicKey), []byte(data))
-	return base64.StdEncoding.EncodeToString(encryData)
+	encryptCode := ec.AesEncryptCBC([]byte(data), Key)
+	return hex.EncodeToString(encryptCode)
+}
+
+// Decry
+func Decry(this js.Value, args []js.Value) interface{} {
+	data := args[0].String()
+	rawData, _ := hex.DecodeString(data)
+	decryptCode := ec.AesDecryptCBC(rawData, Key)
+	return string(decryptCode)
 }
