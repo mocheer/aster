@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 	"syscall/js"
 
-	"github.com/mocheer/aster/ec"
+	"github.com/mocheer/aster/pkg/ec"
 )
 
 // // tinygo不支持 go:embed
